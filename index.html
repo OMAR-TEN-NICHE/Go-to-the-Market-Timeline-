@@ -3,197 +3,231 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIBE+ Go-to-Market Timeline</title>
+<title>VIBE+ Marketing Strategy — 3-Phase Plan</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --bg: #ffffff; --bg2: #f5f4f0; --text: #1a1a18; --text2: #6b6a64; --text3: #9b9a94;
     --border: rgba(0,0,0,0.12); --border2: rgba(0,0,0,0.22);
-    --teal-solid: #5DCAA5; --teal-light: #E1F5EE; --teal-text: #04342C;
-    --purple-solid: #AFA9EC; --purple-light: #EEEDFE; --purple-text: #26215C;
-    --amber-solid: #EF9F27; --amber-light: #FAEEDA; --amber-text: #412402;
-    --blue-solid: #85B7EB; --blue-light: #E6F1FB; --blue-text: #042C53;
-    --coral-solid: #F0997B; --coral-light: #FAECE7; --coral-text: #4A1B0C;
-    --radius: 4px; --radius-lg: 12px;
+    --radius: 8px; --radius-lg: 12px;
+    --aw-bg: #EEEDFE; --aw-text: #3C3489; --aw-dark: #26215C; --aw-mid: #CECBF6; --aw-sub: #534AB7;
+    --en-bg: #E1F5EE; --en-text: #085041; --en-dark: #04342C; --en-mid: #9FE1CB; --en-sub: #0F6E56;
+    --cv-bg: #FAEEDA; --cv-text: #633806; --cv-dark: #412402; --cv-mid: #FAC775; --cv-sub: #854F0B;
   }
   @media (prefers-color-scheme: dark) {
     :root {
       --bg: #1c1c1a; --bg2: #252522; --text: #e8e6de; --text2: #9b9a94; --text3: #6b6a64;
       --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.2);
-      --teal-solid: #1D9E75; --teal-light: #04342C; --teal-text: #9FE1CB;
-      --purple-solid: #7F77DD; --purple-light: #26215C; --purple-text: #CECBF6;
-      --amber-solid: #BA7517; --amber-light: #412402; --amber-text: #FAC775;
-      --blue-solid: #378ADD; --blue-light: #042C53; --blue-text: #B5D4F4;
-      --coral-solid: #D85A30; --coral-light: #4A1B0C; --coral-text: #F5C4B3;
+      --aw-bg: #26215C; --aw-text: #CECBF6; --aw-dark: #EEEDFE; --aw-mid: #3C3489; --aw-sub: #AFA9EC;
+      --en-bg: #04342C; --en-text: #9FE1CB; --en-dark: #E1F5EE; --en-mid: #085041; --en-sub: #5DCAA5;
+      --cv-bg: #412402; --cv-text: #FAC775; --cv-dark: #FAEEDA; --cv-mid: #633806; --cv-sub: #EF9F27;
     }
   }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; max-width: 1100px; margin: 0 auto; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; max-width: 800px; margin: 0 auto; }
   h1 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
   .subtitle { font-size: 13px; color: var(--text2); margin-bottom: 1.8rem; }
 
-  .tl { width: 100%; }
-  .month-row { display: flex; margin-bottom: 6px; }
-  .label-col { width: 130px; min-width: 130px; }
-  .month-labels { flex: 1; display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
-  .month-lbl { text-align: center; font-size: 11px; color: var(--text3); font-weight: 600; padding: 2px 0; }
+  .flow-bar { display: flex; align-items: center; margin-bottom: 6px; }
+  .flow-seg { flex: 1; height: 4px; }
+  .flow-arrow { width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; }
+  .flow-gap { width: 14px; }
+  .flow-labels { display: flex; margin-bottom: 20px; font-size: 12px; color: var(--text2); }
+  .flow-labels span { flex: 1; text-align: center; }
 
-  .phase-row { display: flex; margin-bottom: 3px; align-items: stretch; }
-  .phase-label { width: 130px; min-width: 130px; font-size: 12px; font-weight: 500; color: var(--text2); padding: 6px 10px 6px 0; display: flex; align-items: center; justify-content: flex-end; text-align: right; line-height: 1.3; }
-  .bars { flex: 1; display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; }
-  .bar { height: 34px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; transition: opacity 0.15s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 0 4px; }
-  .bar.empty { background: transparent; }
+  .phases { display: flex; flex-direction: column; gap: 8px; }
+  .phase-block { border-radius: var(--radius-lg); overflow: hidden; border: 0.5px solid var(--border2); }
+  .phase-header { display: flex; align-items: center; gap: 14px; padding: 14px 18px; cursor: pointer; user-select: none; transition: opacity 0.15s; }
+  .phase-header:hover { opacity: 0.85; }
+  .phase-num { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; flex-shrink: 0; }
+  .phase-titles { flex: 1; }
+  .phase-title { font-size: 15px; font-weight: 600; }
+  .phase-timing { font-size: 12px; margin-top: 2px; }
+  .phase-tag { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
+  .chevron { font-size: 11px; margin-left: 8px; transition: transform 0.2s; color: var(--text3); }
+  .chevron.open { transform: rotate(180deg); }
 
-  .teal-s  { background: var(--teal-solid);  color: var(--teal-text); }
-  .teal-l  { background: var(--teal-light);  color: var(--teal-text); }
-  .purple-s{ background: var(--purple-solid); color: var(--purple-text); }
-  .purple-l{ background: var(--purple-light); color: var(--purple-text); }
-  .amber-s { background: var(--amber-solid);  color: var(--amber-text); }
-  .amber-l { background: var(--amber-light);  color: var(--amber-text); }
-  .blue-s  { background: var(--blue-solid);   color: var(--blue-text); }
-  .blue-l  { background: var(--blue-light);   color: var(--blue-text); }
-  .coral-s { background: var(--coral-solid);  color: var(--coral-text); }
-  .coral-l { background: var(--coral-light);  color: var(--coral-text); }
+  .phase-body { display: none; padding: 0 18px 18px; }
+  .phase-body.open { display: block; }
+  .tactics { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .tactic { background: var(--bg2); border-radius: var(--radius); padding: 13px 15px; border: 0.5px solid var(--border); }
+  .tactic-badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 9px; border-radius: 10px; margin-bottom: 7px; letter-spacing: 0.02em; }
+  .tactic-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+  .tactic-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .tactic-desc br { display: block; margin-top: 2px; }
+  .goal-bar { display: flex; align-items: flex-start; gap: 10px; margin-top: 14px; padding-top: 12px; border-top: 0.5px solid var(--border2); font-size: 13px; }
+  .goal-label { color: var(--text3); font-weight: 600; min-width: 52px; padding-top: 1px; }
+  .goal-val { color: var(--text); line-height: 1.5; }
 
-  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; margin-bottom: 4px; }
-  .leg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
-  .leg-sq { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .aw-hdr  { background: var(--aw-bg); }
+  .aw-num  { background: var(--aw-mid); color: var(--aw-dark); }
+  .aw-tag  { background: var(--aw-mid); color: var(--aw-dark); }
+  .aw-time { color: var(--aw-sub); }
+  .aw-ttl  { color: var(--aw-text); }
+  .aw-badge{ background: var(--aw-mid); color: var(--aw-dark); }
 
-  .milestones { margin-top: 16px; padding-top: 14px; border-top: 0.5px solid var(--border2); display: flex; flex-direction: column; gap: 8px; }
-  .ms { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text2); line-height: 1.4; }
-  .ms-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
-  .ms strong { color: var(--text); font-weight: 600; }
+  .en-hdr  { background: var(--en-bg); }
+  .en-num  { background: var(--en-mid); color: var(--en-dark); }
+  .en-tag  { background: var(--en-mid); color: var(--en-dark); }
+  .en-time { color: var(--en-sub); }
+  .en-ttl  { color: var(--en-text); }
+  .en-badge{ background: var(--en-mid); color: var(--en-dark); }
 
-  @media (max-width: 700px) {
+  .cv-hdr  { background: var(--cv-bg); }
+  .cv-num  { background: var(--cv-mid); color: var(--cv-dark); }
+  .cv-tag  { background: var(--cv-mid); color: var(--cv-dark); }
+  .cv-time { color: var(--cv-sub); }
+  .cv-ttl  { color: var(--cv-text); }
+  .cv-badge{ background: var(--cv-mid); color: var(--cv-dark); }
+
+  @media (max-width: 560px) {
     body { padding: 1rem; }
-    .phase-label { width: 90px; min-width: 90px; font-size: 11px; }
-    .label-col { width: 90px; min-width: 90px; }
-    .bar { font-size: 9px; height: 28px; }
+    .phase-tag { display: none; }
   }
 </style>
 </head>
 <body>
 
-<h1>VIBE+ Go-to-Market Timeline</h1>
-<p class="subtitle">12-Month Launch Roadmap — Study Energy Patch @ Vietnamese-German University</p>
+<h1>VIBE+ Marketing Strategy</h1>
+<p class="subtitle">Three-Phase Promotional Plan — Study Energy Patch @ VGU</p>
 
-<div class="tl">
-  <!-- Month headers -->
-  <div class="month-row">
-    <div class="label-col"></div>
-    <div class="month-labels">
-      <span class="month-lbl">M1</span><span class="month-lbl">M2</span><span class="month-lbl">M3</span>
-      <span class="month-lbl">M4</span><span class="month-lbl">M5</span><span class="month-lbl">M6</span>
-      <span class="month-lbl">M7</span><span class="month-lbl">M8</span><span class="month-lbl">M9</span>
-      <span class="month-lbl">M10</span><span class="month-lbl">M11</span><span class="month-lbl">M12</span>
-    </div>
-  </div>
-
-  <!-- Legal & Registration -->
-  <div class="phase-row">
-    <div class="phase-label">Legal &amp; Registration</div>
-    <div class="bars">
-      <div class="bar teal-s">ERC</div>
-      <div class="bar teal-l">Trademark</div>
-      <div class="bar teal-l">Product decl.</div>
-      <div class="bar empty"></div><div class="bar empty"></div><div class="bar empty"></div>
-      <div class="bar empty"></div><div class="bar empty"></div><div class="bar empty"></div>
-      <div class="bar empty"></div><div class="bar empty"></div><div class="bar empty"></div>
-    </div>
-  </div>
-
-  <!-- Production -->
-  <div class="phase-row">
-    <div class="phase-label">Production</div>
-    <div class="bars">
-      <div class="bar purple-s">Contract</div>
-      <div class="bar purple-s">Batch 1</div>
-      <div class="bar purple-l">QC &amp; test</div>
-      <div class="bar empty"></div><div class="bar empty"></div><div class="bar empty"></div>
-      <div class="bar empty"></div><div class="bar empty"></div>
-      <div class="bar purple-l">Batch 2</div>
-      <div class="bar purple-l">Batch 2</div>
-      <div class="bar empty"></div><div class="bar empty"></div>
-    </div>
-  </div>
-
-  <!-- Marketing -->
-  <div class="phase-row">
-    <div class="phase-label">Marketing</div>
-    <div class="bars">
-      <div class="bar empty"></div>
-      <div class="bar amber-l">Teaser</div>
-      <div class="bar amber-s">Launch</div>
-      <div class="bar amber-s">AIDA active</div>
-      <div class="bar amber-l">Retention</div>
-      <div class="bar amber-l">Retention</div>
-      <div class="bar amber-l">Retention</div>
-      <div class="bar amber-l">Review</div>
-      <div class="bar amber-l">Scale</div>
-      <div class="bar amber-l">Scale</div>
-      <div class="bar amber-l">Scale</div>
-      <div class="bar amber-l">Scale</div>
-    </div>
-  </div>
-
-  <!-- Sales -->
-  <div class="phase-row">
-    <div class="phase-label">Sales</div>
-    <div class="bars">
-      <div class="bar empty"></div>
-      <div class="bar empty"></div>
-      <div class="bar blue-l">VM setup</div>
-      <div class="bar blue-s">Soft launch</div>
-      <div class="bar blue-s">Full launch</div>
-      <div class="bar blue-s">Full</div>
-      <div class="bar blue-s">Full</div>
-      <div class="bar blue-s">Full</div>
-      <div class="bar blue-s">Full</div>
-      <div class="bar blue-s">Full</div>
-      <div class="bar blue-s">Full</div>
-      <div class="bar blue-s">Full</div>
-    </div>
-  </div>
-
-  <!-- Finance & KPIs -->
-  <div class="phase-row">
-    <div class="phase-label">Finance &amp; KPIs</div>
-    <div class="bars">
-      <div class="bar empty"></div>
-      <div class="bar empty"></div>
-      <div class="bar empty"></div>
-      <div class="bar coral-l">Track</div>
-      <div class="bar coral-s">BEP check</div>
-      <div class="bar coral-l">Review</div>
-      <div class="bar coral-l">Review</div>
-      <div class="bar coral-l">Review</div>
-      <div class="bar coral-l">Review</div>
-      <div class="bar coral-l">Review</div>
-      <div class="bar coral-l">Review</div>
-      <div class="bar coral-s">Year-end</div>
-    </div>
-  </div>
+<div class="flow-bar">
+  <div class="flow-seg" style="background:#AFA9EC;"></div>
+  <div class="flow-arrow" style="border-left:10px solid #AFA9EC;"></div>
+  <div class="flow-gap"></div>
+  <div class="flow-seg" style="background:#5DCAA5;"></div>
+  <div class="flow-arrow" style="border-left:10px solid #5DCAA5;"></div>
+  <div class="flow-gap"></div>
+  <div class="flow-seg" style="background:#EF9F27;"></div>
+  <div class="flow-arrow" style="border-left:10px solid #EF9F27;"></div>
+</div>
+<div class="flow-labels">
+  <span>Phase 1 · Awareness</span>
+  <span>Phase 2 · Engagement</span>
+  <span>Phase 3 · Conversion</span>
 </div>
 
-<!-- Legend -->
-<div class="legend">
-  <div class="leg"><span class="leg-sq" style="background:var(--teal-solid);"></span>Legal</div>
-  <div class="leg"><span class="leg-sq" style="background:var(--purple-solid);"></span>Production</div>
-  <div class="leg"><span class="leg-sq" style="background:var(--amber-solid);"></span>Marketing</div>
-  <div class="leg"><span class="leg-sq" style="background:var(--blue-solid);"></span>Sales</div>
-  <div class="leg"><span class="leg-sq" style="background:var(--coral-solid);"></span>Finance</div>
-  <div class="leg"><span class="leg-sq" style="background:var(--text3); opacity:0.4; border: 0.5px solid var(--border2);"></span>Darker = key milestone</div>
+<div class="phases">
+
+  <!-- Phase 1: Awareness -->
+  <div class="phase-block">
+    <div class="phase-header aw-hdr" onclick="toggle(this)">
+      <div class="phase-num aw-num">1</div>
+      <div class="phase-titles">
+        <div class="phase-title aw-ttl">Awareness</div>
+        <div class="phase-timing aw-time">Month 2–3 · Pre-launch</div>
+      </div>
+      <span class="phase-tag aw-tag">Attention</span>
+      <span class="chevron open">▼</span>
+    </div>
+    <div class="phase-body open">
+      <div class="tactics">
+        <div class="tactic">
+          <span class="tactic-badge aw-badge">Fanpage + TikTok</span>
+          <div class="tactic-name">Social media launch</div>
+          <div class="tactic-desc">Build VIBE+ presence on Facebook Fanpage and TikTok before the product arrives on campus. Content focuses on student pain points — late-night studying, exam stress, lack of focus — using trending formats to build anticipation and early followers.</div>
+        </div>
+        <div class="tactic">
+          <span class="tactic-badge aw-badge">QR Code Campaign</span>
+          <div class="tactic-name">"Energy Test" interactive quiz</div>
+          <div class="tactic-desc">Eye-catching posters placed around VGU campus with a QR code linking to an interactive energy quiz. Students discover their "energy type" and receive a personalised result along with a first-time buyer reward voucher — creating a direct bridge between awareness and trial intent.</div>
+        </div>
+        <div class="tactic">
+          <span class="tactic-badge aw-badge">Product Launch</span>
+          <div class="tactic-name">Finals Survival Deal</div>
+          <div class="tactic-desc">Timed to coincide with VGU's exam season, this launch-week bundle positions VIBE+ as the essential exam survival tool. Limited availability creates urgency and drives first purchases at the vending machine.</div>
+        </div>
+      </div>
+      <div class="goal-bar">
+        <span class="goal-label">Goal</span>
+        <span class="goal-val">Build brand recognition across VGU campus before the first sale is made</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 2: Engagement -->
+  <div class="phase-block">
+    <div class="phase-header en-hdr" onclick="toggle(this)">
+      <div class="phase-num en-num">2</div>
+      <div class="phase-titles">
+        <div class="phase-title en-ttl">Engagement</div>
+        <div class="phase-timing en-time">Month 4–6 · Post-launch</div>
+      </div>
+      <span class="phase-tag en-tag">Interest + Desire</span>
+      <span class="chevron open">▼</span>
+    </div>
+    <div class="phase-body open">
+      <div class="tactics">
+        <div class="tactic">
+          <span class="tactic-badge en-badge">TikTok Challenge</span>
+          <div class="tactic-name">"8-Hour Focus Challenge"</div>
+          <div class="tactic-desc">Students record a 15–30 second before/after study video using VIBE+, then upload it to TikTok with hashtags #VIBEplus, #studytok, and #Finalsurvivor. The top 3 entries — judged on creativity and engagement — receive a Finals Survival Kit and a feature on the VIBE+ fanpage.</div>
+        </div>
+        <div class="tactic">
+          <span class="tactic-badge en-badge">KOC Strategy</span>
+          <div class="tactic-name">Education creator partnerships</div>
+          <div class="tactic-desc">Partner with KOCs (Key Opinion Consumers) in the study and education niche — online tutors, student influencers, and "study with me" creators. Authentic content around fatigue management and focus routines makes VIBE+ a natural part of a student's daily routine rather than a promoted product.</div>
+        </div>
+      </div>
+      <div class="goal-bar">
+        <span class="goal-label">Goal</span>
+        <span class="goal-val">Build social proof and create organic word-of-mouth within the VGU community</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase 3: Conversion -->
+  <div class="phase-block">
+    <div class="phase-header cv-hdr" onclick="toggle(this)">
+      <div class="phase-num cv-num">3</div>
+      <div class="phase-titles">
+        <div class="phase-title cv-ttl">Conversion</div>
+        <div class="phase-timing cv-time">Month 4–12 · Ongoing</div>
+      </div>
+      <span class="phase-tag cv-tag">Action</span>
+      <span class="chevron open">▼</span>
+    </div>
+    <div class="phase-body open">
+      <div class="tactics">
+        <div class="tactic">
+          <span class="tactic-badge cv-badge">Flash Sale</span>
+          <div class="tactic-name">Study Night Flash Sale (10PM–2AM)</div>
+          <div class="tactic-desc">A time-limited discount offered exclusively during late-night study hours — targeting students at their peak energy demand moment. Discount is capped at 10–15% to maintain positive unit economics above the 7,000 ₫ variable cost per patch.</div>
+        </div>
+        <div class="tactic">
+          <span class="tactic-badge cv-badge">Lucky Draw</span>
+          <div class="tactic-name">"Mua là Trúng" — scratch &amp; win</div>
+          <div class="tactic-desc">4-step mechanic: Scratch the card → Scan QR → Enter code "VIBE2026" → Spin to win. Prizes include free patches, bundle upgrades, and VGU-themed merch. Drives impulse purchases and repeat visits to the vending machine.</div>
+        </div>
+        <div class="tactic">
+          <span class="tactic-badge cv-badge">Loyalty Program</span>
+          <div class="tactic-name">Focus Points system</div>
+          <div class="tactic-desc">
+            Earn points with every interaction with VIBE+:<br>
+            · Purchase 1 patch → 10 points<br>
+            · Purchase 1 box → 150 points<br>
+            · Share latest post on social media → 10 points<br>
+            · Leave a product review → 20 points<br><br>
+            Points are redeemable for percentage discount vouchers on future purchases, encouraging repeat buying and organic social sharing simultaneously.
+          </div>
+        </div>
+      </div>
+      <div class="goal-bar">
+        <span class="goal-label">Goal</span>
+        <span class="goal-val">Drive repeat purchases and reach the 3,497-package break-even threshold within Year 1</span>
+      </div>
+    </div>
+  </div>
+
 </div>
 
-<!-- Milestones -->
-<div class="milestones">
-  <div class="ms"><span class="ms-dot" style="background:var(--teal-solid);"></span><span><strong>Month 1:</strong> File for Enterprise Registration Certificate (ERC) + sign manufacturing contract + deposit</span></div>
-  <div class="ms"><span class="ms-dot" style="background:var(--purple-solid);"></span><span><strong>Month 2:</strong> Batch 1 leaves factory — run QC checks on sample units before distribution</span></div>
-  <div class="ms"><span class="ms-dot" style="background:var(--amber-solid);"></span><span><strong>Month 3:</strong> TikTok teaser campaign begins + vending machine slots confirmed and installed at VGU</span></div>
-  <div class="ms"><span class="ms-dot" style="background:var(--blue-solid);"></span><span><strong>Month 4:</strong> Soft launch at VGU — first 270–330 packages sold, collect feedback and iterate</span></div>
-  <div class="ms"><span class="ms-dot" style="background:var(--coral-solid);"></span><span><strong>Month 5:</strong> BEP checkpoint — cumulative packages sold must reach 3,497 to recover total year costs</span></div>
-  <div class="ms"><span class="ms-dot" style="background:var(--purple-solid);"></span><span><strong>Month 9:</strong> Reorder Batch 2 if inventory drops below 300 packages; evaluate Shopee/TikTok Shop expansion</span></div>
-  <div class="ms"><span class="ms-dot" style="background:var(--coral-solid);"></span><span><strong>Month 12:</strong> Full year-end review — P&amp;L, KPIs, cash balance, decision on Year 2 strategy</span></div>
-</div>
-
+<script>
+function toggle(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.chevron');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+}
+</script>
 </body>
 </html>
